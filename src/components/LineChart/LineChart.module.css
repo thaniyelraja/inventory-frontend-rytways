@@ -1,0 +1,30 @@
+.container {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.header h3 {
+  margin: 0 0 4px;
+  color: var(--text-h);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.header span {
+  color: var(--text);
+  font-size: 13px;
+}

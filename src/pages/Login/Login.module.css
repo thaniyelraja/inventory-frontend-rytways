@@ -1,0 +1,122 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  padding: 24px;
+  box-sizing: border-box;
+
+  background: radial-gradient(
+    circle at top left,
+    var(--accent-bg),
+    transparent 35%
+  ),
+  var(--bg);
+
+}
+
+.login_card {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+
+}
+
+.login_card :global(.ant-card-body){
+  padding: 32px;
+}
+
+.login_card :global(.ant-typography){
+  margin-bottom: 28px;
+  color: var(--text-h);
+  text-align: center;
+}
+
+.login_card form{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login_card :global(.ant-input-affix-wrapper) {
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.login_card :global(.ant-input-affix-wrapper .ant-input) {
+  height: auto;
+  line-height: normal;
+}
+
+.login_card :global(.ant-input),
+.login_card :global(.ant-input-affix-wrapper) {
+  height: 44px;
+  line-height: 44px;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+
+  color: var(--text-h);
+  background: var(--bg);
+}
+
+.login_card :global(.ant-input:hover),
+.login_card :global(.ant-input-affix-wrapper:hover) {
+  border-color: var(--accent-border);
+}
+
+.login_card :global(.ant-input:focus),
+.login_card :global(.ant-input-affix-wrapper-focused) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-bg);
+}
+
+.login_card p {
+  margin: 0 0 8px;
+
+  color: #d4380d;
+  font-size: 13px;
+}
+
+.login_card :global(.ant-btn-primary) {
+  width: 100%;
+  height: 44px;
+
+  margin-top: 12px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: var(--accent);
+  color: var(--text-h);
+
+  font-weight: 600;
+
+  box-shadow: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login_card :global(.ant-btn-primary:hover) {
+  background: var(--accent) !important;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 14px rgba(152, 150, 241, 0.25);
+}
+
+.login_card :global(.ant-btn-primary:active) {
+  transform: translateY(0);
+}

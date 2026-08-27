@@ -1,0 +1,42 @@
+
+.modalTitle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cartBadge {
+  display: inline-flex;
+}
+
+.cartBadge :global(.ant-badge-count) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15px;
+  min-height: 15px;
+  font-size: 10px;
+  padding: 2px;
+  right: 40px;
+  bottom: 10px;
+  border-radius: 50%;
+}
+
+.cartBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 40px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.cartBtn:hover {
+  background: var(--second-color);
+  transform: scale(1.05);
+}

@@ -1,0 +1,191 @@
+.container {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+
+  width: 100vw;
+  height: 100vh;
+
+  border: none;
+  border-radius: 0;
+  background: var(--bg);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  gap: 16px;
+  padding: 18px 20px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.tableTitle {
+  flex: 1;
+  text-align: center;
+  color: var(--text-h);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.search {
+  width: 260px;
+}
+
+.search :global(.ant-input) {
+  font-family: var(--sans);
+}
+
+.search :global(.ant-input-affix-wrapper) {
+  border-radius: 9px;
+  border-color: var(--border);
+  background: var(--bg);
+  transition: all 0.2s ease;
+}
+
+.search :global(.ant-input-affix-wrapper:hover) {
+  border-color: var(--accent-border);
+}
+
+.search :global(.ant-input-affix-wrapper-focused) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions :global(.ant-btn) {
+  width: fit-content !important;
+  min-width: 28px;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 9px !important;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.actions :global(.ant-btn:hover) {
+  color: var(--accent) !important;
+  border-color: var(--accent-border) !important;
+  background: var(--accent-bg) !important;
+}
+
+.container :global(.ant-table-wrapper) {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container :global(.ant-table) {
+  font-family: var(--sans);
+  color: var(--text);
+  --ant-table-header-border-radius: 0 !important;
+}
+
+.container :global(.ant-table-thead > tr > th) {
+  text-align: center !important;
+  background: var(--third-color) !important;
+  color: var(--text-h) !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  border-bottom: 1px solid var(--third-color-dk) !important;
+  padding: 14px 16px !important;
+}
+
+.container :global(.ant-table-container) {
+  border-radius: 0 !important;
+}
+
+.tableCell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filterMenu {
+  padding: 10px;
+}
+
+.container :global(.ant-table-thead > tr > th) {
+  background: rgba(152, 150, 241, 0.06);
+  color: var(--text-h);
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.container :global(.ant-table-tbody > tr > td) {
+  color: var(--md-black);
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.container :global(.ant-table-tbody > tr) {
+  transition: background 0.2s ease;
+}
+
+.container :global(.ant-table-tbody > tr:hover > td) {
+  background: var(--border) !important;
+}
+
+.container :global(.ant-table-body) {
+  min-height: var(--table-min-height);
+}
+
+.container :global(.ant-pagination) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container :global(.ant-pagination-options) {
+  position: absolute;
+  right: 20px;
+}
+.container :global(.ant-pagination-total-text) {
+  position: absolute;
+  left: 20px;
+}
+.container :global(.ant-pagination-item) {
+  border-radius: 7px;
+}
+
+.container :global(.ant-pagination-item-active) {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.container :global(.ant-pagination-item-active a) {
+  color: var(--text-h);
+}
+
+.container :global(.ant-empty-description) {
+  color: var(--text);
+}

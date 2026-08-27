@@ -1,0 +1,22 @@
+.statusTag {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.approved,
+.rejected {
+  border: none;
+  background: transparent;
+}
+
+.approved {
+  color: #389e0d;
+}
+
+.rejected {
+  color: #cf1322;
+}

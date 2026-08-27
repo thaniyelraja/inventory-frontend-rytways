@@ -1,0 +1,42 @@
+:root {
+  --first-color: #8ef6e4;
+  --first-color-dk: #57f5db;
+  --second-color: #9896f1;
+  --second-color-dk: #7d7bf7;
+  --third-color: #d59bf6;
+  --third-color-dk: #c46df7;
+  --fourth-color: #edb1f1;
+  --fourth-color-dk: #ee74f7;
+
+  --text: #6b6375;
+  --text-dk: #475569;
+  --text-h: #08060d;
+  --pending: #faad14;
+  --approved: #52c41a;
+  --rejected: #ff4d4f;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent-light: #cac9f8;
+  --accent: #9896f1;
+  --accent-dk: #7f7dd6;
+  --accent-bg: rgba(152, 150, 241, 0.1);
+  --accent-border: rgba(152, 150, 241, 0.5);
+  --accent-border-dk: rgb(207, 104, 254);
+  --social-bg: #f4f3ec80;
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --light-black: rgba(0, 0, 0, 0.5);
+  --md-black: rgba(0, 0, 0, 0.8);
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}

@@ -1,0 +1,43 @@
+.headerTitle {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.headerText {
+  display: block;
+  white-space: nowrap;
+}
+
+.headerOverflow {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.headerTitle:hover .headerOverflow {
+  overflow: visible;
+  text-overflow: clip;
+  animation: headerSlide 4s linear infinite;
+}
+
+@keyframes headerSlide {
+  0% {
+    transform: translateX(0);
+  }
+
+  40% {
+    transform: translateX(-30px);
+  }
+
+  60% {
+    transform: translateX(-40px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

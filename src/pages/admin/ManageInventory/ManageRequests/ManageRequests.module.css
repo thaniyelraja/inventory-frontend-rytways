@@ -1,0 +1,9 @@
+.container {
+  padding: 20px;
+}
+
+.statusTag {
+  color: #faad14;
+  background: transparent;
+  border: none;
+}

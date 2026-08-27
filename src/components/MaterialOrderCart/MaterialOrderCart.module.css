@@ -1,0 +1,62 @@
+.cartDrawer{
+    padding: 0;
+}
+
+.tableCell{
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.quantityInput{
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    width: 50px;
+}
+
+.quantityInput:hover{
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.quantityInput:focus{
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.cartFooter{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding: 16px 4px;
+    border-top: 1px solid var(--border);
+}
+
+.totalAmount{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.totalLabel{
+    font-size: 15px;
+    color: var(--text);
+}
+
+.totalValue{
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-h);
+}
+
+.placeOrderBtn{
+    min-width: 100px;
+    height: 40px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--text-h);
+    background: var(--second-color);
+}

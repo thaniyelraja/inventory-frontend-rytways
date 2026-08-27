@@ -1,0 +1,53 @@
+.cartFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.quantityInput {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent;
+  width: 50px;
+}
+
+.quantityInput:hover {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.quantityInput:focus {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.totalAmount {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.totalLabel {
+  font-size: 16px;
+  color: var(--text);
+}
+
+.totalValue {
+  font-size: 18px;
+  color: var(--text-h);
+}
+
+.submitBtn {
+  min-width: 100px;
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: var(--md-black);
+  background: var(--second-color);
+}
+
+.submitBtn:hover {
+  background: var(--second-color-dk) !important;
+  color: var(--text-h) !important;
+}

@@ -1,0 +1,50 @@
+.profile {
+    margin-top: 50px ;
+  width: 100%;
+}
+
+.profileCard {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profileHeader h3 {
+  margin-bottom: 4px;
+  color: var(--text-h);
+}
+
+.profileHeader span {
+  color: var(--text);
+}
+
+.avatar {
+  background: var(--fourth-color);
+  color: var(--text-h);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 28px 0;
+}
+
+.details {
+  margin-top: 16px;
+}
+
+.details :global(.ant-descriptions-item-label) {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.details :global(.ant-descriptions-item-content) {
+  color: var(--text-h);
+}

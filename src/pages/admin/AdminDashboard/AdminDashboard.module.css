@@ -1,0 +1,25 @@
+.container {
+  padding: 0;
+}
+
+.orderBtn {
+  height: 40px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  background: transparent;
+  font-weight: 600;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.orderBtn:hover {
+  transform: translateY(-1px);
+  background: transparent !important;
+  color: var(--accent-dk) !important;
+  border-color: 1px solid var(--accent-dk) !important;
+  border-bottom: 3px solid var(--accent) !important;
+  box-shadow: var(--shadow);
+}

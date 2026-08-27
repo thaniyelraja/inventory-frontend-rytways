@@ -1,0 +1,33 @@
+.row {
+  width: 100%;
+}
+
+.card {
+  height: 100%;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--color);
+  border-radius: 12px;
+  background: var(--bg);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-hover);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.statistic :global(.ant-statistic-title) {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.statistic :global(.ant-statistic-content) {
+  color: var(--text);
+  font-size: 28px;
+  font-weight: 600;
+}

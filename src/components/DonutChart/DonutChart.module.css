@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 16px;
+}
+
+.header h3 {
+  margin: 0 0 4px;
+  color: var(--text-h);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.header span {
+  color: var(--text);
+  font-size: 13px;
+}
