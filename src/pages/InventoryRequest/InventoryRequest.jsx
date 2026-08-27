@@ -9,6 +9,7 @@ import { useInventoryRequest } from "../../context/useInventoryRequest";
 import InventoryRequestModal from "../../components/InventoryRequestModal/InventoryRequestModal";
 import StatusTag from "../../components/StatusTag/StatusTag";
 import DateFormatter from "../../components/DateFormatter/DateFormatter";
+import AppModal from "../../components/AppModal/AppModal";
 
 const InventoryRequest = () => {
   const { setRequest } = useInventoryRequest();
@@ -17,6 +18,7 @@ const InventoryRequest = () => {
   const [size, setSize] = useState(10);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const {
     data: returnRequests,
     isLoading,
@@ -65,9 +67,7 @@ const InventoryRequest = () => {
         return (
           <StatusTag
             status={status}
-            onClick={() => {
-              console.log("Selected request: ", record);
-            }}
+            onClick={() => setSelectedRequest(record)}
           />
         );
       },
@@ -153,6 +153,54 @@ const InventoryRequest = () => {
         </Card>
       </div>
       <InventoryRequestModal onSuccess={refetch} />
+      <AppModal
+        open={!!selectedRequest}
+        onClose={() => setSelectedRequest(null)}
+        title={`${selectedRequest?.requestStatus} Request Status`}
+        width={600}
+      >
+        {selectedRequest?.requestStatus === "PENDING" && (
+          <div>
+            <p>
+              <strong>Requested Quantity : </strong>
+              {selectedRequest?.requestQuantity}{" "}
+              {selectedRequest?.material?.unit}
+            </p>
+            <p>
+              <strong>Requested At : </strong>
+              <DateFormatter date={selectedRequest?.requestedAt} />
+            </p>
+          </div>
+        )}
+        {selectedRequest?.requestStatus === "APPROVED" && (
+          <div>
+            <p>
+              <strong>Approved quantity : </strong>
+              {selectedRequest?.approvedQuantity || "-"}
+            </p>
+            <p>
+              <strong>Approval remarks : </strong>
+              {selectedRequest?.approvalRemarks || "-"}
+            </p>
+            <p>
+              <strong>Approved At : </strong>
+              {selectedRequest?.approvedAt || "-"}
+            </p>
+          </div>
+        )}
+        {selectedRequest?.requestStatus === "REJECTED" && (
+          <div>
+            <p>
+              <strong>Rejection Remarks : </strong>
+              {selectedRequest?.rejectionRemarks || "-"}
+            </p>
+            <p>
+              <strong>Rejected At : </strong>
+              <DateFormatter date={selectedRequest?.rejectedAt || "-"} />
+            </p>
+          </div>
+        )}
+      </AppModal>
     </>
   );
 };

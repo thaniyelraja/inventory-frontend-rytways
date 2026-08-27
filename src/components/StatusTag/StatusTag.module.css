@@ -1,4 +1,5 @@
 .tag {
+  cursor: pointer;
   background: transparent !important;
   border: none;
 }
