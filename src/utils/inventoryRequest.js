@@ -2,12 +2,24 @@ import api from "../services/api";
 
 export const createInventoryRequest = async (data) => {
   const response = await api.post("/inventory-request/request", data);
-  console.log(response.data);
   return response.data;
 };
 
 export const createInventoryRequests = async (data) => {
   const response = await api.post("/inventory-request/requests", data);
+  return response.data;
+};
+
+export const updateInventoryRequest = async (requestId, data) => {
+  const response = await api.put(
+    `/inventory-request/update/${requestId}`,
+    data,
+  );
+  return response.data;
+};
+
+export const deleteInventoryRequest = async (requestId) => {
+  const response = await api.delete(`/inventory-request/delete/${requestId}`);
   return response.data;
 };
 

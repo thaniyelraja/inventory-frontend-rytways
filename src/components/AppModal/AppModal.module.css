@@ -1,0 +1,53 @@
+.modal :global(.ant-modal-content) {
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    var(--third-color),
+    var(--fourth-color)
+  ) !important;
+}
+
+.modal :global(.ant-modal-header) {
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal :global(.ant-modal-body) {
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 5px;
+  background: linear-gradient(
+    135deg,
+    var(--first-color),
+    var(--accent-dk)
+  ) !important;
+}
+
+.modal :global(.ant-modal-footer) {
+  padding: 14px 22px;
+  margin: 0 !important;
+  border-top: 1px solid var(--border);
+}
+
+.modal :global(.ant-modal-close) {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--rejected);
+  color: white;
+}
+
+.modal :global(.ant-modal-close .anticon) {
+  font-size: 13px;
+}
+
+.modal :global(.ant-modal-close:hover) {
+  color: white;
+  background: var(--rejected);
+  border: 1px solid var(--rejected);
+}

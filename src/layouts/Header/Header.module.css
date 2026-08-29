@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  height: 40px;
+  height: 45px;
   padding: 0 20px;
 
   display: flex;
@@ -14,6 +14,46 @@
   box-sizing: border-box;
   border-bottom: 1px solid var(--border);
   border-radius: 8px;
+}
+
+.headerMenu {
+  border-bottom: none;
+  width: 450px;
+  background: transparent;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.headerMenu :global(.ant-menu-subment-title) {
+  padding-right: 28px !important;
+}
+
+.headerMenu :global(.ant-menu-item),
+.headerMenu :global(.ant-menu-submenu) {
+  font-family: "Poppins" !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--text-h);
+}
+
+.headerMenu :global(.ant-menu-item::after),
+.headerMenu :global(.ant-menu-submenu::after) {
+  display: none !important;
+}
+
+.headerMenu :global(.ant-menu-item:hover),
+.headerMenu :global(.ant-menu-submenu:hover) {
+  color: var(--text-h) !important;
+}
+
+.adminMenuLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.adminMenuLabel :global(.anticon) {
+  font-size: 11px;
 }
 
 .logo {
@@ -47,8 +87,10 @@
 }
 
 .rightSection {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 16px;
 }
 
@@ -68,8 +110,6 @@
 
   font-size: 16px;
   cursor: pointer;
-
-  transition: all 0.2s ease;
 }
 
 .menuBtn:hover {
@@ -96,7 +136,7 @@
   color: var(--text) !important;
   font-weight: 600 !important;
   gap: 6px;
-}   
+}
 
 :global(.ant-dropdown .ant-dropdown-menu-item:hover) {
   color: var(--text-h) !important;
@@ -120,8 +160,7 @@
   background: var(--border) !important;
 }
 
-
-.cartIcon{
+.cartIcon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,10 +170,9 @@
   color: var(--text-h);
   background: transparent;
   border: none;
-
 }
 
-.cartIcon:hover{
+.cartIcon:hover {
   border: none !important;
   background: transparent !important;
   background: var(--accent-border) !important;

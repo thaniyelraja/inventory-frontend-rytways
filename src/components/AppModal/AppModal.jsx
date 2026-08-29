@@ -1,3 +1,4 @@
+import styles from "./AppModal.module.css";
 import { Modal } from "antd";
 
 const AppModal = ({
@@ -33,7 +34,11 @@ const AppModal = ({
       okText={okText}
       cancelText={cancelText}
       onOk={onOk}
-      footer={showFooter ? footer : null}
+      footer={showFooter ? (footer ?? undefined) : null}
+      classNames={{
+        root: styles.modal,
+        mask: styles.mask,
+      }}
     >
       {children}
     </Modal>

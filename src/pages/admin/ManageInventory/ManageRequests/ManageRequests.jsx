@@ -1,14 +1,5 @@
 import styles from "./ManageRequests.module.css";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Modal,
-  Popover,
-  Tag,
-} from "antd";
+import { Button, Form, Input, InputNumber, message, Popover, Tag } from "antd";
 import { ClockCircleOutlined, MoreOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -18,6 +9,7 @@ import {
   manageInventoryRequest,
 } from "../../../../utils/inventoryRequest";
 import DateFormatter from "../../../../components/DateFormatter/DateFormatter";
+import AppModal from "../../../../components/AppModal/AppModal";
 
 const ManageRequests = () => {
   const [form] = Form.useForm();
@@ -199,11 +191,12 @@ const ManageRequests = () => {
           setSize,
         }}
         tableHeight={350}
+        rowKey="inventoryRequestId"
       />
-      <Modal
+      <AppModal
         title={actionType === "APPROVED" ? "Approve Request" : "Reject Request"}
         open={!!selectedRequest}
-        onCancel={() => {
+        onClose={() => {
           setSelectedRequest(null);
           form.resetFields();
         }}
@@ -212,6 +205,7 @@ const ManageRequests = () => {
         okButtonProps={{
           danger: actionType === "REJECTED",
         }}
+        showFooter
       >
         {actionType === "APPROVED" && selectedRequest && (
           <div style={{ marginBottom: 16 }}>
@@ -236,7 +230,7 @@ const ManageRequests = () => {
         >
           {actionType === "APPROVED" && (
             <Form.Item
-              label="Approved Quantity"
+              label="Approval Quantity"
               name="approvedQuantity"
               rules={[
                 {
@@ -289,7 +283,7 @@ const ManageRequests = () => {
             <Input.TextArea rows={4} placeholder="Enter remarks" />
           </Form.Item>
         </Form>
-      </Modal>
+      </AppModal>
     </div>
   );
 };

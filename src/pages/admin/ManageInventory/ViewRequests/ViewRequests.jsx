@@ -1,4 +1,4 @@
-import { Modal, Tag } from "antd";
+import { Tag } from "antd";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DataTable from "../../../../components/DataTable/DataTable";
@@ -6,6 +6,7 @@ import { getInventoryRequestsView } from "../../../../utils/inventoryRequest";
 import styles from "./ViewRequests.module.css";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import DateFormatter from "../../../../components/DateFormatter/DateFormatter";
+import AppModal from "../../../../components/AppModal/AppModal";
 
 const ViewRequests = () => {
   const [page, setPage] = useState(0);
@@ -88,6 +89,7 @@ const ViewRequests = () => {
     <div>
       <DataTable
         title="Processed Requests"
+        rowKey="inventoryRequestId"
         columns={columns}
         dataSource={requests}
         loading={isLoading}
@@ -116,6 +118,7 @@ const ViewRequests = () => {
           setStatus(value);
           setPage(0);
         }}
+        showPagination
         pagination={{
           page,
           size,
@@ -125,18 +128,18 @@ const ViewRequests = () => {
         }}
         tableHeight={350}
       />
-      <Modal
+      <AppModal
         title={
           selectedRequest?.requestStatus === "APPROVED"
             ? "Approval Details"
             : "Rejection Details"
         }
         open={viewModalOpen}
-        onCancel={() => {
+        onClose={() => {
           setViewModalOpen(false);
           setSelectedRequest(null);
         }}
-        footer={null}
+        width={400}
       >
         {selectedRequest &&
           (selectedRequest?.requestStatus === "APPROVED" ? (
@@ -175,7 +178,7 @@ const ViewRequests = () => {
               </p>
             </>
           ))}
-      </Modal>
+      </AppModal>
     </div>
   );
 };

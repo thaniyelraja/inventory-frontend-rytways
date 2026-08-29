@@ -1,17 +1,18 @@
-import { Avatar, Descriptions, Modal, Typography } from "antd";
+import { Avatar, Descriptions, Typography } from "antd";
 import styles from "./ProfileModal.module.css";
 import { UserOutlined } from "@ant-design/icons";
+import AppModal from "../AppModal/AppModal";
 
 const { Title, Text } = Typography;
 
 const ProfileModal = ({ open, onClose, user }) => {
   return (
-    <Modal
+    <AppModal
       title="Profile"
       open={open}
-      onCancel={onClose}
-      footer={null}
+      onClose={onClose}
       centered
+      width={500}
     >
       <div className={styles.profile}>
         <div className={styles.profileHeader}>
@@ -43,7 +44,7 @@ const ProfileModal = ({ open, onClose, user }) => {
           </Descriptions.Item>
         </Descriptions>
       </div>
-    </Modal>
+    </AppModal>
   );
 };
 

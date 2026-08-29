@@ -32,3 +32,53 @@
   padding: 12px;
   background: var(--border);
 }
+
+.requestList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.requestItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--border);
+  transition: all 0.2s ease;
+}
+
+.requestItem:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.materialInfo{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.materialName{
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.quantity{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-h);
+}

@@ -3,13 +3,15 @@ import { Avatar, Dropdown, Menu } from "antd";
 import {
   AppstoreOutlined,
   BarChartOutlined,
+  DownOutlined,
   FileDoneOutlined,
   FileSearchOutlined,
   HomeOutlined,
   LogoutOutlined,
   MenuOutlined,
+  // MoonOutlined,
   SendOutlined,
-  ShoppingCartOutlined,
+  // SunOutlined,
   TeamOutlined,
   ToolOutlined,
   UserOutlined,
@@ -17,18 +19,34 @@ import {
 import { getUser, logout } from "../../utils/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileModal from "../../components/ProfileModal/ProfileModal";
 
 const Header = () => {
   const user = getUser();
   const [profileOpen, setProfileOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
+  // const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
     navigate("/login", { replace: true });
   };
+
+  // useEffect(() => {
+  //   document.body.classList.toggle("dark-theme", darkMode);
+  // }, [darkMode]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowMenu(window.scrollY === 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const profileItems = [
     {
@@ -69,14 +87,9 @@ const Header = () => {
       label: "Manage Users",
       icon: <TeamOutlined />,
     },
-    {
-      key: "/admin/orders",
-      label: "Orders",
-      icon: <ShoppingCartOutlined />,
-    },
   ];
 
-  const menuItems = [
+  const userMenuItems = [
     {
       key: "/dashboard",
       label: "Dashboard",
@@ -94,7 +107,31 @@ const Header = () => {
     },
   ];
 
-  const items = user?.role === "ADMIN" ? [...adminMenuItems] : menuItems;
+  const headerMenuItems =
+    user?.role === "ADMIN"
+      ? [
+          {
+            key: "admin",
+            label: (
+              <span className={styles.adminMenuLabel}>
+                ADMIN <DownOutlined />
+              </span>
+            ),
+            children: adminMenuItems,
+          },
+          {
+            key: "/contact",
+            label: "CONTACT",
+          },
+          {
+            key: "/admin/orders",
+            label: "ORDERS",
+          },
+        ]
+      : userMenuItems;
+
+  const menuItems =
+    user?.role === "ADMIN" ? [...adminMenuItems] : userMenuItems;
 
   const handleMenuClick = ({ key }) => {
     navigate(key);
@@ -117,21 +154,42 @@ const Header = () => {
         <span>Inventory Request System</span>
       </div>
       <div className={styles.rightSection}>
-        <Dropdown
-          popupRender={() => (
-            <Menu
-              items={items}
-              selectedKeys={[location.pathname]}
-              onClick={handleMenuClick}
-            />
-          )}
-          trigger={["click"]}
-          placement="bottomRight"
-        >
-          <button className={styles.menuBtn}>
-            <MenuOutlined />
-          </button>
-        </Dropdown>
+        {showMenu ? (
+          <Menu
+            mode="horizontal"
+            items={headerMenuItems}
+            selectedKeys={[location.pathname]}
+            onClick={handleMenuClick}
+            className={styles.headerMenu}
+            overflowedIndicator={null}
+            triggerSubMenuAction="hover"
+            subMenuOpenDelay={0}
+            subMenuCloseDelay={0.2}
+          />
+        ) : (
+          <Dropdown
+            popupRender={() => (
+              <Menu
+                items={menuItems}
+                selectedKeys={[location.pathname]}
+                onClick={handleMenuClick}
+              />
+            )}
+            trigger={["click"]}
+            placement="bottomRight"
+          >
+            <button className={styles.menuBtn}>
+              <MenuOutlined />
+            </button>
+          </Dropdown>
+        )}
+        {/* <Button
+          type="text"
+          className={styles.themeBtn}
+          icon={darkMode ? <SunOutlined /> : <MoonOutlined />}
+          onClick={() => setDarkMode((prev) => !prev)}
+        /> */}
+
         <Dropdown
           menu={{
             items: profileItems,
@@ -143,7 +201,6 @@ const Header = () => {
           <Avatar className={styles.avatar} icon={<UserOutlined />} />
         </Dropdown>
       </div>
-
       <ProfileModal
         open={profileOpen}
         onClose={() => setProfileOpen(false)}

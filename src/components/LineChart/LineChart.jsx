@@ -10,17 +10,17 @@ import {
 } from "recharts";
 import styles from "./LineChart.module.css";
 
-const LineChart = ({ data, xKey, lines, title, subtitle, extra }) => {
+const LineChart = ({ data, xKey, lines, title, subtitle, picker }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div>
-        <h3>{title}</h3>
-        <span>{subtitle}</span>
+          <h3>{title}</h3>
+          <span>{subtitle}</span>
         </div>
-        {extra && <div className={styles.actions}>{extra}</div>}
+        {picker && <div className={styles.actions}>{picker}</div>}
       </div>
-      
+
       <ResponsiveContainer width="100%" height={320}>
         <RechartsLineChart
           data={data}
@@ -34,7 +34,29 @@ const LineChart = ({ data, xKey, lines, title, subtitle, extra }) => {
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis dataKey={xKey} axisLine={false} tickLine={false} />
           <YAxis allowDecimals={false} axisLine={false} tickLine={false} />
-          <Tooltip />
+          <Tooltip
+            content={({ active, payload, label }) => {
+              if (!active) return null;
+
+              return (
+                <div className={styles.tooltip}>
+                  <strong>{label}</strong>
+
+                  {payload?.length ? (
+                    payload.map((item) => (
+                      <div key={item.dataKey}>
+                        {item.dataKey === "noOrders"
+                          ? "No orders"
+                          : `${item.dataKey}: ${item.value}`}
+                      </div>
+                    ))
+                  ) : (
+                    <div>No Orders</div>
+                  )}
+                </div>
+              );
+            }}
+          />
           <Legend />
           {lines.map((line) => (
             <Line
@@ -47,6 +69,12 @@ const LineChart = ({ data, xKey, lines, title, subtitle, extra }) => {
               activeDot={{ r: 6 }}
             />
           ))}
+          <Line
+            dataKey="noOrders"
+            stroke="transparent"
+            dot={false}
+            activeDot={false}
+          />
         </RechartsLineChart>
       </ResponsiveContainer>
     </div>

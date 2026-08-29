@@ -1,24 +1,31 @@
-import { Button, Card } from "antd";
+import { Button, Card, Dropdown, message } from "antd";
 import DataTable from "../../components/DataTable/DataTable";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { MoreOutlined } from "@ant-design/icons";
-import { getInventoryRequest } from "../../utils/inventoryRequest";
+import {
+  deleteInventoryRequest,
+  getInventoryRequest,
+} from "../../utils/inventoryRequest";
 import { getUser } from "../../utils/auth";
 import { useInventoryRequest } from "../../context/useInventoryRequest";
 import InventoryRequestModal from "../../components/InventoryRequestModal/InventoryRequestModal";
 import StatusTag from "../../components/StatusTag/StatusTag";
 import DateFormatter from "../../components/DateFormatter/DateFormatter";
 import AppModal from "../../components/AppModal/AppModal";
+import SingleRequestModal from "../../components/SingleRequestModal/SingleRequestModal";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
 const InventoryRequest = () => {
-  const { setRequest } = useInventoryRequest();
+  const { setRequest, requestSingleOpen, setRequestSingleOpen } =
+    useInventoryRequest();
   const user = getUser();
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [editingRequest, setEditingRequest] = useState(null);
   const {
     data: returnRequests,
     isLoading,
@@ -28,6 +35,7 @@ const InventoryRequest = () => {
     queryFn: () => getInventoryRequest(page, size, search, status, user.userId),
     enabled: !!user?.userId,
   });
+
   const requests = returnRequests?.content ?? [];
   const columns = [
     {
@@ -84,15 +92,68 @@ const InventoryRequest = () => {
     {
       title: "Actions",
       key: "actions",
-      render: () => {
+      render: (_, record) => {
+        const items =
+          record.requestStatus === "PENDING"
+            ? [
+                {
+                  key: "edit",
+                  label: "Edit",
+                },
+                {
+                  key: "cancel",
+                  label: "Cancel",
+                },
+              ]
+            : [
+                {
+                  key: "view",
+                  label: "View",
+                },
+              ];
+
         return (
-          <Button
-            type="text"
-            icon={<MoreOutlined />}
-            onClick={(_, record) => {
-              console.log("Request:", record);
+          <Dropdown
+            menu={{
+              items,
+              onClick: ({ key }) => {
+                if (key === "edit") {
+                  setEditingRequest(record);
+                  setRequestSingleOpen(true);
+                }
+                if (key === "cancel") {
+                  ConfirmationModal({
+                    title: "Cancel Request",
+                    content: "Are you sure you want to can cel this request?",
+                    okText: "Yes, Cancel",
+                    cancelText: "No",
+                    onConfirm: async () => {
+                      try {
+                        console.log(record);
+                        await deleteInventoryRequest(record.inventoryRequestId);
+                        message.success("Request canceled successfully", 1.5);
+                        await refetch();
+                      } catch (error) {
+                        message.error(
+                          error?.response?.data?.message ||
+                            error?.message ||
+                            "Failed to cancel request",
+                          2,
+                        );
+                      }
+                    },
+                  });
+                }
+                if (key === "view") {
+                  setSelectedRequest(record);
+                }
+              },
             }}
-          ></Button>
+            trigger={["click"]}
+            placement="bottomRight"
+          >
+            <Button type="text" icon={<MoreOutlined />} />
+          </Dropdown>
         );
       },
     },
@@ -104,6 +165,7 @@ const InventoryRequest = () => {
         <Card>
           <DataTable
             title="Inventory Requests"
+            rowKey="inventoryRequestId"
             columns={columns}
             dataSource={requests}
             loading={isLoading}
@@ -153,11 +215,20 @@ const InventoryRequest = () => {
         </Card>
       </div>
       <InventoryRequestModal onSuccess={refetch} />
+      <SingleRequestModal
+        requestSingleOpen={requestSingleOpen}
+        setRequestSingleOpen={setRequestSingleOpen}
+        material={editingRequest?.material}
+        user={user}
+        request={editingRequest}
+        mode="edit"
+        onSuccess={refetch}
+      />
       <AppModal
         open={!!selectedRequest}
         onClose={() => setSelectedRequest(null)}
         title={`${selectedRequest?.requestStatus} Request Status`}
-        width={600}
+        width={400}
       >
         {selectedRequest?.requestStatus === "PENDING" && (
           <div>
@@ -184,7 +255,7 @@ const InventoryRequest = () => {
             </p>
             <p>
               <strong>Approved At : </strong>
-              {selectedRequest?.approvedAt || "-"}
+              <DateFormatter date={selectedRequest?.approvedAt} />
             </p>
           </div>
         )}
@@ -196,7 +267,7 @@ const InventoryRequest = () => {
             </p>
             <p>
               <strong>Rejected At : </strong>
-              <DateFormatter date={selectedRequest?.rejectedAt || "-"} />
+              <DateFormatter date={selectedRequest?.rejectedAt} />
             </p>
           </div>
         )}

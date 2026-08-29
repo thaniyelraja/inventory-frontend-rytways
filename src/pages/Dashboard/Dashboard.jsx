@@ -6,40 +6,22 @@ import { getUser } from "../../utils/auth";
 import { getDashboardSummary } from "../../utils/dashboard";
 
 import RequestTrend from "../../components/DashboardCharts/ProductTrend/ProductTrend";
-import RequestStatus from "../../components/DashboardCharts/RequestStatus/RequestStatus";
+import RequestStatus from "../../components/DashboardCharts/MonthlyTopTrend/MonthlyTopTrend";
 import StatsCards from "../../components/StatCard/StatsCards";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import ChartCard from "../../components/ChartCard/ChartCard";
-import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 import InventoryRequestModal from "../../components/InventoryRequestModal/InventoryRequestModal";
-import { useInventoryRequest } from "../../context/useInventoryRequest";
 
 function Dashboard() {
   const user = useMemo(() => {
     return getUser();
   }, []);
 
-  const { setRequest } = useInventoryRequest();
-
   const { data: dashboard, isLoading } = useQuery({
     queryKey: ["dashboard-summary", user?.id],
     queryFn: () => getDashboardSummary(user?.id),
     enabled: !!user?.id,
-    // refetchInterval: 30000,
   });
-
-  const action = (
-    <Button
-      type="primary"
-      onClick={() => setRequest(true)}
-      loading={isLoading}
-      disabled={isLoading}
-      className={styles.orderBtn}
-    >
-      <PlusOutlined /> Inventory Request
-    </Button>
-  );
 
   const stats = [
     {
@@ -85,7 +67,6 @@ function Dashboard() {
         <PageHeader
           title={`Good Morning, ${user?.name}`}
           description="Here's what's happening with you requests"
-          action={action}
         />
 
         <StatsCards items={stats} gutter={[16, 16]} loading={isLoading} />

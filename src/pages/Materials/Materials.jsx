@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   InputNumber,
-  Modal,
   Popover,
   Tag,
   Form,
@@ -12,6 +11,7 @@ import {
 } from "antd";
 import DataTable from "../../components/DataTable/DataTable";
 import { MoreOutlined } from "@ant-design/icons";
+import { FaRegHandPointer } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import {
   exportMaterialsExcel,
@@ -20,17 +20,16 @@ import {
   getRequestDetails,
 } from "../../utils/material";
 import { useEffect, useState } from "react";
-import {
-  createInventoryRequest,
-  createInventoryRequests,
-} from "../../utils/inventoryRequest";
+import { createInventoryRequests } from "../../utils/inventoryRequest";
 import { getUser } from "../../utils/auth";
+import AppModal from "../../components/AppModal/AppModal";
+import { useInventoryRequest } from "../../context/useInventoryRequest";
+import SingleRequestModal from "../../components/SingleRequestModal/SingleRequestModal";
 
 const Materials = () => {
   const [form] = Form.useForm();
-
   const [selectedMaterial, setSelectedMaterial] = useState(null);
-  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const { requestSingleOpen, setRequestSingleOpen } = useInventoryRequest();
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [openPopoverId, setOpenPopoverId] = useState(null);
 
@@ -40,6 +39,7 @@ const Materials = () => {
   const [size, setSize] = useState(10);
   const [categoryId, setCategoryId] = useState(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [placeRequestOpen, setPlaceRequestOpen] = useState(false);
 
   const user = getUser();
 
@@ -94,6 +94,9 @@ const Materials = () => {
   });
 
   const materials = returnMaterials?.content ?? [];
+  const selectedMaterials = materials.filter((material) =>
+    selectedRowKeys.includes(material.materialId),
+  );
 
   const columns = [
     {
@@ -143,6 +146,11 @@ const Materials = () => {
             <div
               className={styles.popoverItem}
               onClick={() => {
+                if (record.availableQuantity === 0) {
+                  message.warning("Product out of Stock");
+                  setOpenPopoverId(null);
+                  return;
+                }
                 handleRequest(record);
                 setOpenPopoverId(null);
               }}
@@ -217,25 +225,32 @@ const Materials = () => {
     </div>
   );
 
-  const handleBtnSubmit = async () => {
+  const handleBtnSubmit = async (values) => {
     if (selectedRowKeys.length === 0) {
       message.warning("Select at least one material");
       return;
     }
+
     const selectedMaterials = materials.filter((material) =>
       selectedRowKeys.includes(material.materialId),
     );
+
     const requestData = {
       userId: user.userId,
       items: selectedMaterials.map((material) => ({
         materialId: material.materialId,
-        quantity: 1,
+        quantity: values.quantities[material.materialId],
       })),
     };
+
     try {
       await createInventoryRequests(requestData);
+
       message.success("Inventory request submitted", 1.5);
+
       setSelectedRowKeys([]);
+      setPlaceRequestOpen(false);
+      form.resetFields();
     } catch (error) {
       console.log(error);
       message.error("Failed to submit request", 1.5);
@@ -245,7 +260,7 @@ const Materials = () => {
   const handleRequest = (material) => {
     setSelectedMaterial(material);
     form.resetFields();
-    setRequestModalOpen(true);
+    setRequestSingleOpen(true);
   };
 
   return (
@@ -263,11 +278,21 @@ const Materials = () => {
             onChange: (selectedKeys) => {
               setSelectedRowKeys(selectedKeys);
             },
+            getCheckboxProps: (record) => ({
+              disabled: record.availableQuantity === 0,
+            }),
+            getTitleCheckboxProps: () => ({
+              style: {
+                display: "none",
+              },
+            }),
           }}
           showPagination
-          showBtn
-          onSubmitBtn={handleBtnSubmit}
-          btnText="Place request"
+          showSelectionBtn
+          onSelectionBtn={() => setPlaceRequestOpen(true)}
+          selectionBtnText="Place request"
+          selectionBtnIcon={<FaRegHandPointer />}
+          onClearSelection={() => setSelectedRowKeys([])}
           pagination={{
             page,
             size,
@@ -288,97 +313,67 @@ const Materials = () => {
           rowKey="materialId"
         />
       </Card>
-
-      <Modal
-        title="Request Material"
-        open={requestModalOpen}
-        onCancel={() => {
-          setRequestModalOpen(false);
-          form.resetFields();
-        }}
-        onOk={() => {
-          form.submit();
-        }}
-        okText="Submit Request"
+      <AppModal
+        title="Inventory Request List"
+        open={placeRequestOpen}
+        onClose={() => setPlaceRequestOpen(false)}
+        width={600}
+        showFooter
+        footer={
+          <Button type="primary" onClick={() => form.submit()}>
+            Place Request
+          </Button>
+        }
       >
-        {selectedMaterial && (
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={async (values) => {
-              const requestData = {
-                requestQuantity: values.quantity,
-                material: {
-                  materialId: selectedMaterial.materialId,
-                },
-                user: {
-                  userId: user.userId,
-                },
-              };
+        <Form form={form} onFinish={handleBtnSubmit}>
+          <div className={styles.requestList}>
+            {selectedMaterials.map((material) => (
+              <div key={material.materialId} className={styles.requestItem}>
+                <div className={styles.materialInfo}>
+                  <span>
+                    Material Name : <strong>{material.materialName}</strong>
+                  </span>
 
-              try {
-                await createInventoryRequest(requestData);
-                setRequestModalOpen(false);
-                form.resetFields();
-                message.success("Request submitted successfully", 1.5);
-              } catch (error) {
-                message.error(error, 2);
-              }
-            }}
-          >
-            <p>
-              <strong>Material : </strong>
-              {selectedMaterial.materialName}
-            </p>
+                  <span>
+                    Available :{" "}
+                    <strong>
+                      {material.availableQuantity}
+                      {material.unit}
+                    </strong>
+                  </span>
+                </div>
 
-            <p>
-              <strong>Available : </strong>
-              {selectedMaterial.availableQuantity}
-            </p>
+                <div className={styles.quantity}>
+                  <span>Request Quantity: </span>
 
-            <Form.Item
-              label="Request Quantity"
-              name="quantity"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter quantity",
-                },
-                {
-                  type: "number",
-                  min: 1,
-                  message: "Quantity must be at least 1",
-                },
-                {
-                  validator: (_, value) => {
-                    if (value && (value <= 0 || typeof value !== "number")) {
-                      return Promise.reject(
-                        new Error("Please enter valid quantity"),
-                      );
-                    }
-
-                    if (value && value > selectedMaterial.availableQuantity) {
-                      return Promise.reject(
-                        new Error("Quantity cannot be higher than available"),
-                      );
-                    }
-
-                    return Promise.resolve();
-                  },
-                },
-              ]}
-            >
-              <InputNumber min={1} placeholder="Enter Quantity" />
-            </Form.Item>
-          </Form>
-        )}
-      </Modal>
-
-      <Modal
+                  <Form.Item
+                    name={["quantities", material.materialId]}
+                    initialValue={1}
+                    noStyle
+                  >
+                    <InputNumber
+                      min={1}
+                      defaultValue={1}
+                      max={material.availableQuantity}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Form>
+      </AppModal>
+      <SingleRequestModal
+        requestSingleOpen={requestSingleOpen}
+        setRequestSingleOpen={setRequestSingleOpen}
+        material={selectedMaterial}
+        user={user}
+        mode="create"
+      />
+      <AppModal
         title="View Material"
         open={viewModalOpen}
-        onCancel={() => setViewModalOpen(false)}
-        footer={null}
+        onClose={() => setViewModalOpen(false)}
         centered
       >
         {selectedMaterial && (
@@ -448,7 +443,7 @@ const Materials = () => {
             )}
           </>
         )}
-      </Modal>
+      </AppModal>
     </div>
   );
 };

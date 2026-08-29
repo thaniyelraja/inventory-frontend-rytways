@@ -1,10 +1,69 @@
 .container {
+  position: relative;
   width: 100%;
   background: var(--bg);
   border: 1px solid var(--accent-border);
   border-radius: 12px;
   box-shadow: var(--shadow);
   overflow: hidden;
+}
+
+.selectionBar {
+  position: absolute;
+  right: 5px;
+  bottom: 65px;
+  z-index: 8;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 7px 12px;
+  border-radius: 8px;
+  height: 4%;
+  width: 400px;
+
+  background: linear-gradient(135deg, var(--first-color), var(--second-color));
+  box-shadow: var(--shadow);
+}
+
+.selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.clearBtn,
+.selectionBtn {
+  height: 20px;
+  color: var(--md-black);
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.clearBtn:hover,
+.selectionBtn:hover {
+  transform: translateY(-2px);
+  color: var(--text-h);
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow);
+}
+
+.selectionBtnWrapper {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.selectionBtn {
+  height: 20px;
+  right: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .fullscreen {

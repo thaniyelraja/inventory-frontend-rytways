@@ -1,12 +1,11 @@
-import { Button, message } from "antd";
+import { message } from "antd";
 import styles from "./AdminDashboard.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { getAdminDashboardSummary } from "../../../utils/dashboard";
 import { useEffect, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
 import StatsCards from "../../../components/StatCard/StatsCards";
 import ChartCard from "../../../components/ChartCard/ChartCard";
-import RequestStatus from "../../../components/DashboardCharts/RequestStatus/RequestStatus";
+import RequestStatus from "../../../components/DashboardCharts/MonthlyTopTrend/MonthlyTopTrend";
 import MaterialOrder from "../../../components/MaterialOrder/MaterialOrder";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import ProductTrend from "../../../components/DashboardCharts/ProductTrend/ProductTrend";
@@ -91,25 +90,11 @@ const AdminDashboard = () => {
       component: <RequestStatus />,
     },
   ];
-
-  const action = (
-    <Button
-      type="primary"
-      onClick={() => setMaterialOrder(true)}
-      loading={isLoading}
-      disabled={isLoading}
-      className={styles.orderBtn}
-    >
-      <PlusOutlined /> Order
-    </Button>
-  );
-
   return (
     <div className={styles.container}>
       <PageHeader
         title="Admin Dashboard"
         description="Manage your inventory here"
-        action={action}
       />
 
       <div className={styles.content}>

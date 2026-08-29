@@ -1,13 +1,14 @@
-import { Badge, Button, Form, InputNumber, message, Modal, Select } from "antd";
+import { Badge, Button, Form, InputNumber, message, Select } from "antd";
 import styles from "./InventoryRequestModal.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories, getMaterialsByCategories } from "../../utils/material";
-import { PlusOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { PlusOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import InventoryRequestCart from "../InventoryRequestCart/InventoryRequestCart";
 import { getUser } from "../../utils/auth";
 import { createInventoryRequests } from "../../utils/inventoryRequest";
 import { useInventoryRequest } from "../../context/useInventoryRequest";
+import AppModal from "../AppModal/AppModal";
 
 const InventoryRequestModal = ({ onSuccess }) => {
   const { request, setRequest } = useInventoryRequest();
@@ -76,7 +77,6 @@ const InventoryRequestModal = ({ onSuccess }) => {
       quantity: values.quantity,
     };
     setRequestItems((prev) => [...prev, newItem]);
-    console.log(requestItems);
     form.resetFields(["materialId", "quantity"]);
   };
 
@@ -112,12 +112,11 @@ const InventoryRequestModal = ({ onSuccess }) => {
   };
   return (
     <div className={styles.container}>
-      <Modal
+      <AppModal
         open={request}
-        onCancel={handleClose}
-        footer={null}
+        onClose={handleClose}
         centered
-        width={700}
+        width={600}
         title={
           <div className={styles.modalTitle}>
             <span>Inventory Request</span>
@@ -125,7 +124,7 @@ const InventoryRequestModal = ({ onSuccess }) => {
               <Button
                 type="text"
                 className={styles.cartBtn}
-                icon={<ShoppingCartOutlined />}
+                icon={<UnorderedListOutlined />}
                 onClick={() => setCartOpen(true)}
               />
             </Badge>
@@ -195,10 +194,10 @@ const InventoryRequestModal = ({ onSuccess }) => {
             />
           </Form.Item>
           <Button type="default" onClick={handleAddMaterial}>
-            <PlusOutlined /> Add material
+            <PlusOutlined /> Add to List
           </Button>
         </Form>
-      </Modal>
+      </AppModal>
       <InventoryRequestCart
         open={cartOpen}
         onClose={() => setCartOpen(false)}

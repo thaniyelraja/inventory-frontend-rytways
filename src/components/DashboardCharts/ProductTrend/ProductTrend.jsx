@@ -23,10 +23,14 @@ const ProductTrend = () => {
     // refetchInterval: 30000,
   });
 
-  const chartData = data.map((item) => ({
-    periodName: item.periodName,
-    ...item.products,
-  }));
+  const chartData = data.map((item) => {
+    const products = item.products || {};
+    return {
+      periodName: item.periodName,
+      ...products,
+      noOrders: Object.keys(products).length === 0 ? 0 : null,
+    };
+  });
 
   const products = [
     ...new Set(data.flatMap((item) => Object.keys(item.products || {}))),
@@ -51,7 +55,9 @@ const ProductTrend = () => {
       <div
         onMouseEnter={() => setHoverDate(current)}
         style={{
-          background: isInRange ? "var(--third-color)" : "transparent",
+          background: isInRange
+            ? "linear-gradient(135deg, var(--second-color), var(--fourth-color))"
+            : "transparent",
           color: isInRange ? "#fff" : "inherit",
           height: "100%",
         }}
@@ -61,7 +67,7 @@ const ProductTrend = () => {
     );
   };
 
-  const pickers = (
+  const picker = (
     <DatePicker
       className={styles.picker}
       value={date}
@@ -78,10 +84,10 @@ const ProductTrend = () => {
         data={chartData}
         loading={isLoading}
         xKey="periodName"
-        title="Product Trend"
+        title="Weekly Trend"
         subtitle="Product request activity"
         lines={lines}
-        extra={pickers}
+        picker={picker}
       />
     </div>
   );

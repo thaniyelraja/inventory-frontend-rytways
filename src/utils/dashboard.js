@@ -19,6 +19,15 @@ export const getProductTrend = async (period, queryValue) => {
   return response.data;
 };
 
+export const getMonthlyTopProducts = async (month) => {
+  const response = await api.get("/dashboard/admin/top-products", {
+    params: {
+      month,
+    },
+  });
+  return response.data;
+};
+
 export const getRequestStatus = async (userId) => {
   const response = await api.get("/dashboard/status", {
     params: {

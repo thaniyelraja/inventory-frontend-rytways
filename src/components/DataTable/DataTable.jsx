@@ -1,5 +1,7 @@
 import styles from "./DataTable.module.css";
 import {
+  CheckSquareFilled,
+  ClearOutlined,
   CompressOutlined,
   DownloadOutlined,
   ExpandOutlined,
@@ -23,6 +25,12 @@ const DataTable = ({
 
   showRowSelection = false,
   rowSelection,
+
+  showSelectionBtn = false,
+  selectionBtnText = "",
+  selectionBtnIcon = null,
+  onSelectionBtn,
+  onClearSelection,
 
   showFilter = false,
   filterContent,
@@ -165,6 +173,35 @@ const DataTable = ({
             )}
             {showExport && (
               <Button icon={<DownloadOutlined />} onClick={onExport}></Button>
+            )}
+          </div>
+        </div>
+      )}
+      {showRowSelection && rowSelection?.selectedRowKeys?.length > 0 && (
+        <div className={styles.selectionBar}>
+          <span className={styles.selection}>
+            <CheckSquareFilled /> {rowSelection?.selectedRowKeys?.length}{" "}
+            Selected
+          </span>
+          {" |"}
+          <Button
+            className={styles.clearBtn}
+            type="text"
+            icon={<ClearOutlined />}
+            onClick={onClearSelection}
+          >
+            Clear
+          </Button>
+          <div className={styles.selectionBtnWrapper}>
+            {showSelectionBtn && (
+              <Button
+                type="text"
+                icon={selectionBtnIcon}
+                onClick={onSelectionBtn}
+                className={styles.selectionBtn}
+              >
+                {selectionBtnText}
+              </Button>
             )}
           </div>
         </div>
